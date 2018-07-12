@@ -1,14 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.truekenyan.drawingpad.MainActivity">
+    android:orientation="vertical"
+    tools:context="com.truekenyan.drawingpad.activities.MainActivity">
 
-    <com.truekenyan.drawingpad.Drawing
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/canvas"/>
+        android:layout_height="?attr/actionBarSize"
+        android:id="@+id/toolbar"
+        android:orientation="horizontal"
+        android:background="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_color"
+            android:text="@string/color"
+            android:id="@+id/action_color"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:padding="5dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_brush"
+            android:text="@string/brush"
+            android:id="@+id/action_size"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:padding="5dp"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_delete"
+            android:text="@string/clear"
+            android:id="@+id/action_clear"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:padding="5dp"
+            android:onClick="clearCanvas"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/ic_save"
+            android:text="@string/save"
+            android:id="@+id/action_save"
+            android:textColor="@android:color/white"
+            android:textAlignment="center"
+            android:padding="5dp"/>
+    </LinearLayout>
 
-</LinearLayout>
+    <com.truekenyan.drawingpad.utilities.Drawing
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/canvas"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/toolbar"/>
+
+</android.support.constraint.ConstraintLayout>

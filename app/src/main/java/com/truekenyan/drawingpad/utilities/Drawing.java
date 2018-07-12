@@ -1,14 +1,18 @@
-package com.truekenyan.drawingpad;
+package com.truekenyan.drawingpad.utilities;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.ArrayList;
 
 /**
  * Created by password
@@ -22,9 +26,11 @@ public class Drawing extends View {
     private Bitmap bitmap;
     private Path drawPath;
     private Canvas canvas;
-    private int drawColor = 0xFFFFFFFF;
-    private float currentBrushSize, prevBrushSize;
+    private int drawColor = 0xFF000000;
+    private float brushSize = 3F;
 
+    private ArrayList<Path> allPaths = new ArrayList<>();
+    private ArrayList<Path> undonePaths = new ArrayList<>();
 
     public Drawing (Context context) {
         super(context);
@@ -51,7 +57,7 @@ public class Drawing extends View {
         drawPaint = new Paint();
         drawPaint.setStyle(Paint.Style.STROKE);
         drawPaint.setColor(drawColor);
-        drawPaint.setStrokeWidth(currentBrushSize);
+        drawPaint.setStrokeWidth(brushSize);
         drawPaint.setAntiAlias(true);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -72,5 +78,55 @@ public class Drawing extends View {
         super.onSizeChanged(w, h, oldw, oldh);
         bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bitmap);
+    }
+
+    @Override
+    public boolean onTouchEvent (MotionEvent event) {
+        float eventX = event.getX();
+        float eventY = event.getY();
+
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                drawPath.moveTo(eventX, eventY);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                drawPath.lineTo(eventX, eventY);
+                break;
+            case MotionEvent.ACTION_UP:
+                drawPath.lineTo(eventX, eventY);
+                canvas.drawPath(drawPath, drawPaint);
+                drawPath.reset();
+                break;
+            default:
+                return false;
+        }
+
+        invalidate();
+        return true;
+    }
+
+    public void touchUp(){
+
+    }
+
+    public void touchDown(float x, float y){
+
+    }
+
+    public void touchMove(float x, float y){
+
+    }
+
+    public void setBrushColor(int color){
+        drawPaint.setColor(color);
+    }
+
+    public void setBrushSize(float size){
+        drawPaint.setStrokeWidth(size);
+    }
+
+    public void clearAll(){
+        canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+        invalidate();
     }
 }

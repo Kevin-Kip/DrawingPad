@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Drawing Pad</string>
+    <string name="delete">Delete</string>
+    <string name="undo">Undo</string>
+    <string name="color">Color</string>
+    <string name="brush">Brush</string>
+    <string name="save">Save</string>
+    <string name="erase">Erase</string>
+    <string name="clear">Clear</string>
 </resources>
