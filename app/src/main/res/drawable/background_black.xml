@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="oval">
+            <size android:width="?attr/actionBarSize"
+                android:height="?attr/actionBarSize"/>
+            <solid android:color="#b71c1c"/>
+        </shape>
+    </item>
+</selector>
