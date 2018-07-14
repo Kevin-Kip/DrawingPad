@@ -4,7 +4,7 @@
         <shape android:shape="oval">
             <size android:width="?attr/actionBarSize"
                 android:height="?attr/actionBarSize"/>
-            <solid android:color="#b71c1c"/>
+            <solid android:color="#ffffff"/>
         </shape>
     </item>
 </selector>

@@ -7,4 +7,6 @@
     <string name="save">Save</string>
     <string name="erase">Erase</string>
     <string name="clear">Clear</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
 </resources>

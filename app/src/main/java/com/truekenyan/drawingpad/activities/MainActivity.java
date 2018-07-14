@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.truekenyan.drawingpad.R;
+import com.truekenyan.drawingpad.fragments.ColorFragment;
+import com.truekenyan.drawingpad.fragments.SizeFragment;
 import com.truekenyan.drawingpad.interfaces.OnValueChanged;
 import com.truekenyan.drawingpad.utilities.Drawing;
 
@@ -46,11 +48,21 @@ public class MainActivity extends AppCompatActivity implements OnValueChanged {
 
     @Override
     public void onColorChanged (int selectedColor) {
-
+        drawingPad.setBrushColor(selectedColor);
     }
 
     @Override
     public void onSizeSelected (float selectedSize) {
+        drawingPad.setBrushSize(selectedSize);
+    }
 
+    public void changeSizeDialog (View view) {
+        SizeFragment sizeFragment = new SizeFragment();
+        sizeFragment.show(getSupportFragmentManager(), sizeFragment.getTag());
+    }
+
+    public void changeColorDialog (View view) {
+        ColorFragment colorFragment = new ColorFragment();
+        colorFragment.show(getSupportFragmentManager(), colorFragment.getTag());
     }
 }

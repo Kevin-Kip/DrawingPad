@@ -25,7 +25,8 @@
             android:id="@+id/action_color"
             android:textColor="@android:color/white"
             android:textAlignment="center"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:onClick="changeColorDialog"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -35,6 +36,7 @@
             android:id="@+id/action_size"
             android:textColor="@android:color/white"
             android:textAlignment="center"
+            android:onClick="changeSizeDialog"
             android:padding="5dp"/>
         <TextView
             android:layout_width="0dp"
