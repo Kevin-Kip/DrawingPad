@@ -8,11 +8,15 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.SeekBar;
 
 import com.truekenyan.drawingpad.R;
 import com.truekenyan.drawingpad.interfaces.OnValueChanged;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Created by password
@@ -21,32 +25,17 @@ import com.truekenyan.drawingpad.interfaces.OnValueChanged;
 
 public class SizeFragment extends DialogFragment {
 
+    @BindView (R.id.change_size)
+    SeekBar changeSize;
+    Unbinder unbinder;
     private OnValueChanged onValueChanged;
-    private SeekBar seekBar;
 
     @Nullable
     @Override
     public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_size, container, false);
-        seekBar = rootView.findViewById(R.id.change_size);
-        Button cancelButton = rootView.findViewById(R.id.cancel_button);
-        Button okButton = rootView.findViewById(R.id.ok_button);
-
-        okButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                int value = seekBar.getProgress();
-                onValueChanged.onSizeSelected((float) value);
-                getDialog().dismiss();
-            }
-        });
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick (View view) {
-                getDialog().dismiss();
-            }
-        });
+        unbinder = ButterKnife.bind(this, rootView);
+        getDialog().setTitle("Change Brush Size");
         return rootView;
     }
 
@@ -54,5 +43,25 @@ public class SizeFragment extends DialogFragment {
     public void onAttach (Context context) {
         super.onAttach(context);
         onValueChanged = (OnValueChanged) context;
+    }
+
+    @Override
+    public void onDestroyView () {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick ({R.id.cancel_button, R.id.ok_button})
+    public void onViewClicked (View view) {
+        switch (view.getId()) {
+            case R.id.cancel_button:
+                getDialog().dismiss();
+                break;
+            case R.id.ok_button:
+                int value = changeSize.getProgress();
+                onValueChanged.onSizeSelected((float) value);
+                getDialog().dismiss();
+                break;
+        }
     }
 }

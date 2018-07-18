@@ -58,7 +58,8 @@
             android:id="@+id/action_save"
             android:textColor="@android:color/white"
             android:textAlignment="center"
-            android:padding="5dp"/>
+            android:padding="5dp"
+            android:onClick="saveCanvas"/>
     </LinearLayout>
 
     <com.truekenyan.drawingpad.utilities.Drawing

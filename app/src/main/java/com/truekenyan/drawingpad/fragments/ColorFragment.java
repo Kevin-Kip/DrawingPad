@@ -31,6 +31,7 @@ public class ColorFragment extends DialogFragment {
     public View onCreateView (@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_color, container, false);
         unbinder = ButterKnife.bind(this, view);
+        getDialog().setTitle("Pick a Color");
         return view;
     }
 

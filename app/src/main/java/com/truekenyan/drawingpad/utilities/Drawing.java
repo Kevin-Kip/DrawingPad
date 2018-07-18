@@ -7,12 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-
-import java.util.ArrayList;
 
 /**
  * Created by password
@@ -26,11 +23,6 @@ public class Drawing extends View {
     private Bitmap bitmap;
     private Path drawPath;
     private Canvas canvas;
-    private int drawColor = 0xFF000000;
-    private float brushSize = 3F;
-
-    private ArrayList<Path> allPaths = new ArrayList<>();
-    private ArrayList<Path> undonePaths = new ArrayList<>();
 
     public Drawing (Context context) {
         super(context);
@@ -47,16 +39,12 @@ public class Drawing extends View {
         init();
     }
 
-    @RequiresApi(21)
-    public Drawing (Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        init();
-    }
-
     private void init(){
         drawPaint = new Paint();
         drawPaint.setStyle(Paint.Style.STROKE);
+        int drawColor = 0xFF000000;
         drawPaint.setColor(drawColor);
+        float brushSize = 3F;
         drawPaint.setStrokeWidth(brushSize);
         drawPaint.setAntiAlias(true);
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
@@ -103,18 +91,6 @@ public class Drawing extends View {
 
         invalidate();
         return true;
-    }
-
-    public void touchUp(){
-
-    }
-
-    public void touchDown(float x, float y){
-
-    }
-
-    public void touchMove(float x, float y){
-
     }
 
     public void setBrushColor(int color){
