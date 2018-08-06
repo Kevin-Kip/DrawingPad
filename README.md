@@ -10,5 +10,5 @@ I love playing around with a canvas.
  
 ## Look and feel
 
-<img src="/screenshots/device1.png" width="250px"><img src="/screenshots/device2.png" width="250px">
-<img src="/screenshots/device3.png" width="250px"><img src="/screenshots/device4.png" width="250px">
+<img src="/screenshots/device1.png" width="250px"> <img src="/screenshots/device2.png" width="250px">
+<img src="/screenshots/device3.png" width="250px"> <img src="/screenshots/device4.png" width="250px">
