@@ -37,14 +37,11 @@ public class MainActivity extends AppCompatActivity implements OnValueChanged {
 
     public void clearCanvas(View view){
 
-        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick (DialogInterface dialogInterface, int i) {
-                if (i == DialogInterface.BUTTON_POSITIVE){
-                    drawingPad.clearAll();
-                } else if (i == DialogInterface.BUTTON_NEGATIVE){
-                    dialogInterface.dismiss();
-                }
+        DialogInterface.OnClickListener dialogClickListener = (dialogInterface, i) -> {
+            if (i == DialogInterface.BUTTON_POSITIVE){
+                drawingPad.clearAll();
+            } else if (i == DialogInterface.BUTTON_NEGATIVE){
+                dialogInterface.dismiss();
             }
         };
 
@@ -103,12 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnValueChanged {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Error")
                     .setMessage("Ooops! Could not save.")
-            .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick (DialogInterface dialogInterface, int i) {
-                    dialogInterface.dismiss();
-                }
-            });
+                    .setNegativeButton("CANCEL", (dialogInterface, i) -> dialogInterface.dismiss());
             AlertDialog n = builder.create();
             n.show();
         }
@@ -117,18 +109,8 @@ public class MainActivity extends AppCompatActivity implements OnValueChanged {
             AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
             builder.setTitle("Saved")
                     .setMessage("Saved Successfully. Dou you want to clear the canvas?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick (DialogInterface dialogInterface, int i) {
-                            drawingPad.clearAll();
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick (DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-                        }
-                    });
+                    .setPositiveButton("Yes", (dialogInterface, i) -> drawingPad.clearAll())
+                    .setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss());
             AlertDialog n = builder.create();
             n.show();
         }
