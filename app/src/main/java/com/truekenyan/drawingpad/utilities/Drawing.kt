@@ -1,5 +1,6 @@
 package com.truekenyan.drawingpad.utilities
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -27,54 +28,52 @@ class Drawing : View {
         init()
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet) : super(context, attrs) {
+    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         init()
     }
 
-    constructor(context: Context, @Nullable attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         init()
     }
 
     private fun init() {
-        drawPaint = Paint()
-        drawPaint!!.setStyle(Paint.Style.STROKE)
-        val drawColor = -0x1000000
-        drawPaint!!.setColor(drawColor)
         val brushSize = 3f
-        drawPaint!!.setStrokeWidth(brushSize)
-        drawPaint!!.setAntiAlias(true)
-        drawPaint!!.setStrokeJoin(Paint.Join.ROUND)
-        drawPaint!!.setStrokeCap(Paint.Cap.ROUND)
+        val drawColor = -0x1000000
+        drawPaint = Paint()
+        drawPaint!!.style = Paint.Style.STROKE
+        drawPaint!!.color = drawColor
+        drawPaint!!.strokeWidth = brushSize
+        drawPaint!!.isAntiAlias = true
+        drawPaint!!.strokeJoin = Paint.Join.ROUND
+        drawPaint!!.strokeCap = Paint.Cap.ROUND
 
         canvasPaint = Paint(Paint.DITHER_FLAG)
         drawPath = Path()
     }
 
-    @Override
-    protected fun onDraw(canvas: Canvas) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        canvas.drawBitmap(bitmap, 0, 0, canvasPaint)
-        canvas.drawPath(drawPath, drawPaint)
+        canvas.drawBitmap(bitmap!!, 0F, 0F, canvasPaint)
+        canvas.drawPath(drawPath!!, drawPaint!!)
     }
 
-    @Override
-    protected fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
         bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888)
-        canvas = Canvas(bitmap)
+        canvas = Canvas(bitmap!!)
     }
 
-    @Override
-    fun onTouchEvent(event: MotionEvent): Boolean {
-        val eventX = event.getX()
-        val eventY = event.getY()
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        val eventX = event.x
+        val eventY = event.y
 
-        when (event.getAction()) {
+        when (event.action) {
             MotionEvent.ACTION_DOWN -> drawPath!!.moveTo(eventX, eventY)
             MotionEvent.ACTION_MOVE -> drawPath!!.lineTo(eventX, eventY)
             MotionEvent.ACTION_UP -> {
                 drawPath!!.lineTo(eventX, eventY)
-                canvas!!.drawPath(drawPath, drawPaint)
+                canvas!!.drawPath(drawPath!!, drawPaint!!)
                 drawPath!!.reset()
             }
             else -> return false
@@ -85,11 +84,11 @@ class Drawing : View {
     }
 
     fun setBrushColor(color: Int) {
-        drawPaint!!.setColor(color)
+        drawPaint!!.color = color
     }
 
     fun setBrushSize(size: Float) {
-        drawPaint!!.setStrokeWidth(size)
+        drawPaint!!.strokeWidth = size
     }
 
     fun clearAll() {
