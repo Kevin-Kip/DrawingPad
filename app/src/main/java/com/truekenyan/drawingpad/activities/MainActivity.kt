@@ -21,27 +21,27 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 
+@Suppress("DEPRECATION")
 class MainActivity : AppCompatActivity(), OnValueChanged {
 
     private var drawingPad: Drawing? = null
-    private var back_pressed: Long = 0
+    private var backPressed  = 0L
 
-    @Override
-    protected fun onCreate(savedInstanceState: Bundle) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         drawingPad = findViewById(R.id.canvas)
-        drawingPad!!.setDrawingCacheEnabled(true)
+        drawingPad!!.isDrawingCacheEnabled = true
     }
 
     fun clearCanvas(view: View) {
 
-        val dialogClickListener = { dialogInterface, i ->
-            if (i === DialogInterface.BUTTON_POSITIVE) {
+        val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
+            if (which == DialogInterface.BUTTON_POSITIVE) {
                 drawingPad!!.clearAll()
-            } else if (i === DialogInterface.BUTTON_NEGATIVE) {
-                dialogInterface.dismiss()
+            } else if (which == DialogInterface.BUTTON_NEGATIVE) {
+                dialog!!.dismiss()
             }
         }
 
@@ -54,46 +54,44 @@ class MainActivity : AppCompatActivity(), OnValueChanged {
         n.show()
     }
 
-    @Override
-    fun onColorChanged(selectedColor: Int) {
+    override fun onColorChanged(selectedColor: Int) {
         drawingPad!!.setBrushColor(selectedColor)
     }
 
-    @Override
-    fun onSizeSelected(selectedSize: Float) {
+    override fun onSizeSelected(selectedSize: Float) {
         drawingPad!!.setBrushSize(selectedSize)
     }
 
     fun changeSizeDialog(view: View) {
         val sizeFragment = SizeFragment()
-        sizeFragment.show(getSupportFragmentManager(), sizeFragment.getTag())
+        sizeFragment.show(supportFragmentManager, sizeFragment.tag)
     }
 
     fun changeColorDialog(view: View) {
         val colorFragment = ColorFragment()
-        colorFragment.show(getSupportFragmentManager(), colorFragment.getTag())
+        colorFragment.show(supportFragmentManager, colorFragment.tag)
     }
 
     @Throws(IOException::class)
     fun saveCanvas(view: View) {
         var path = Environment.getExternalStorageDirectory().toString()
-        path = path + "/Drawings"
+        path = "$path/Drawings"
         val dir = File(path)
-        drawingPad!!.setDrawingCacheEnabled(true)
+        drawingPad!!.isDrawingCacheEnabled = true
 
         val name = "Drawing_" + System.currentTimeMillis() + ".png"
-        val savedImage = MediaStore.Images.Media.insertImage(getContentResolver(), drawingPad!!.getDrawingCache(), name, "A drawing")
+        val savedImage = MediaStore.Images.Media.insertImage(contentResolver, drawingPad!!.drawingCache, name, "A drawing")
 
         try {
 
-            if (!dir.isDirectory() || !dir.exists()) {
+            if (!dir.isDirectory || !dir.exists()) {
                 dir.mkdirs()
             }
 
-            drawingPad!!.setDrawingCacheEnabled(true)
+            drawingPad!!.isDrawingCacheEnabled = true
             val file = File(dir, name)
             val fileOutputStream = FileOutputStream(file)
-            val bitmap = drawingPad!!.getDrawingCache()
+            val bitmap = drawingPad!!.drawingCache
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
 
         } catch (e: FileNotFoundException) {
@@ -101,7 +99,7 @@ class MainActivity : AppCompatActivity(), OnValueChanged {
             val builder = AlertDialog.Builder(this@MainActivity)
             builder.setTitle("Error")
                     .setMessage("Ooops! Could not save.")
-                    .setNegativeButton("CANCEL", { dialogInterface, i -> dialogInterface.dismiss() })
+                    .setNegativeButton("CANCEL") { dialogInterface, _ -> dialogInterface.dismiss() }
             val n = builder.create()
             n.show()
         }
@@ -110,8 +108,8 @@ class MainActivity : AppCompatActivity(), OnValueChanged {
             val builder = AlertDialog.Builder(this@MainActivity)
             builder.setTitle("Saved")
                     .setMessage("Saved Successfully. Dou you want to clear the canvas?")
-                    .setPositiveButton("Yes", { dialogInterface, i -> drawingPad!!.clearAll() })
-                    .setNegativeButton("No", { dialogInterface, i -> dialogInterface.dismiss() })
+                    .setPositiveButton("Yes") { _, _ -> drawingPad!!.clearAll() }
+                    .setNegativeButton("No") { dialogInterface, _ -> dialogInterface.dismiss() }
             val n = builder.create()
             n.show()
         }
@@ -119,15 +117,14 @@ class MainActivity : AppCompatActivity(), OnValueChanged {
         drawingPad!!.destroyDrawingCache()
     }
 
-    @Override
-    fun onBackPressed() {
-        val TIME_UNIT = 2000
-        if (TIME_UNIT + back_pressed > System.currentTimeMillis()) {
+    override fun onBackPressed() {
+        val timeUnit = 2000
+        if (timeUnit + backPressed > System.currentTimeMillis()) {
             finishAffinity()
             System.exit(0)
         } else {
             Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show()
         }
-        back_pressed = System.currentTimeMillis()
+        backPressed = System.currentTimeMillis()
     }
 }
