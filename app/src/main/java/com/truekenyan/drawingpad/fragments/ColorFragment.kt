@@ -54,7 +54,7 @@ class ColorFragment : DialogFragment() {
         return view
     }
 
-    fun onViewClicked(action: String): View.OnClickListener {
+    private fun onViewClicked(action: String): View.OnClickListener {
         var selectedColor: Int
         return View.OnClickListener {
             when (action) {
