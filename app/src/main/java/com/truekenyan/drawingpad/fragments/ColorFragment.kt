@@ -42,13 +42,13 @@ class ColorFragment : DialogFragment() {
         buttonWhite = view.findViewById(R.id.button_white)
 
         buttonBlack!!.setOnClickListener(onViewClicked(Commons.BLACK))
-        buttonBlue!!.setOnClickListener(onViewClicked(Commons.BLACK))
-        buttonGreen!!.setOnClickListener(onViewClicked(Commons.BLACK))
-        buttonGrey!!.setOnClickListener(onViewClicked(Commons.BLACK))
-        buttonOrange!!.setOnClickListener(onViewClicked(Commons.BLACK))
-        buttonPink!!.setOnClickListener(onViewClicked(Commons.BLACK))
-        buttonRed!!.setOnClickListener(onViewClicked(Commons.BLACK))
-        buttonWhite!!.setOnClickListener(onViewClicked(Commons.BLACK))
+        buttonBlue!!.setOnClickListener(onViewClicked(Commons.BLUE))
+        buttonGreen!!.setOnClickListener(onViewClicked(Commons.GREEN))
+        buttonGrey!!.setOnClickListener(onViewClicked(Commons.GREY))
+        buttonOrange!!.setOnClickListener(onViewClicked(Commons.ORANGE))
+        buttonPink!!.setOnClickListener(onViewClicked(Commons.PINK))
+        buttonRed!!.setOnClickListener(onViewClicked(Commons.RED))
+        buttonWhite!!.setOnClickListener(onViewClicked(Commons.WHITE))
 
         dialog.setTitle("Pick a Color")
         return view
