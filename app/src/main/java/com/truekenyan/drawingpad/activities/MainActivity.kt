@@ -36,22 +36,12 @@ class MainActivity : AppCompatActivity(), OnValueChanged {
     }
 
     fun clearCanvas(view: View) {
-
-        val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
-            if (which == DialogInterface.BUTTON_POSITIVE) {
-                drawingPad!!.clearAll()
-            } else if (which == DialogInterface.BUTTON_NEGATIVE) {
-                dialog!!.dismiss()
-            }
-        }
-
-        val builder = AlertDialog.Builder(this@MainActivity)
-        builder.setTitle("Clear")
+        AlertDialog.Builder(this@MainActivity)
+                .setTitle("Clear")
                 .setMessage("Are you sure you want to clear?")
-                .setPositiveButton("Yes", dialogClickListener)
-                .setNegativeButton("No", dialogClickListener)
-        val n = builder.create()
-        n.show()
+                .setPositiveButton("Yes"){ _, _ -> drawingPad!!.clearAll() }
+                .setNegativeButton("No"){dialog, _-> dialog!!.dismiss() }
+                .create().show()
     }
 
     override fun onColorChanged(selectedColor: Int) {
@@ -83,11 +73,7 @@ class MainActivity : AppCompatActivity(), OnValueChanged {
         val savedImage = MediaStore.Images.Media.insertImage(contentResolver, drawingPad!!.drawingCache, name, "A drawing")
 
         try {
-
-            if (!dir.isDirectory || !dir.exists()) {
-                dir.mkdirs()
-            }
-
+            if (!dir.isDirectory || !dir.exists()) dir.mkdirs()
             drawingPad!!.isDrawingCacheEnabled = true
             val file = File(dir, name)
             val fileOutputStream = FileOutputStream(file)
@@ -95,13 +81,11 @@ class MainActivity : AppCompatActivity(), OnValueChanged {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream)
 
         } catch (e: FileNotFoundException) {
-
-            val builder = AlertDialog.Builder(this@MainActivity)
-            builder.setTitle("Error")
+            AlertDialog.Builder(this@MainActivity)
+                    .setTitle("Error")
                     .setMessage("Ooops! Could not save.")
-                    .setNegativeButton("CANCEL") { dialogInterface, _ -> dialogInterface.dismiss() }
-            val n = builder.create()
-            n.show()
+                    .setPositiveButton("CANCEL") { dialogInterface, _ -> dialogInterface.dismiss() }
+                    .create().show()
         }
 
         if (savedImage != null) {
